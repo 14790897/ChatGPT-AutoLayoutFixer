@@ -42,40 +42,41 @@ const observer = new MutationObserver((mutations) => {
           }
 
 
-
-          // 如果新添加的节点有子节点，也对子节点进行相同的操作
-          const childElementsForClasses =
-            node.querySelectorAll('[class*="auto"]')
-          childElementsForClasses.forEach((childElement) => {
-            if (!checkForImg(childElement)) {
-              removeClasses(childElement, [...AUTO_CLASS])
-            }
-          })
-
           // 设置新添加的 <p> 和 <pre> 标签的宽度
           if (node.tagName === 'P' || node.tagName === 'PRE') {
             node.style.width = '100%' // 占满最大可用宽度
             node.style.overflowWrap = 'break-word'
           }
 
-          const childElementsForWidth = node.querySelectorAll('p, pre')
-          childElementsForWidth.forEach((childElement) => {
-            childElement.style.width = '100%' // 占满最大可用宽度
-            childElement.style.overflowWrap = 'break-word'
-          })
 
           if (node.className && node.className.includes('md:max-w-3xl')) {
             node.classList.remove('md:max-w-3xl')
           }
           // 如果新添加的节点有子节点，也对子节点进行相同的操作
-          const childElementsForMaxWidth =
-            node.querySelectorAll('.md\\:max-w-3xl')
-          childElementsForMaxWidth.forEach((childElement) => {
+          const childElements = node.querySelectorAll(
+            '[class*="auto"], .md\\:max-w-3xl, p, pre'
+          )
+          childElements.forEach((childElement) => {
             if (!checkForImg(childElement)) {
-              childElement.classList.remove('md:max-w-3xl')
+              // 根据元素的类名或标签名进行相应的操作
+              if (childElement.className.includes('auto')) {
+                removeClasses(childElement, AUTO_CLASS)
+              }
+
+              if (childElement.className.includes('md:max-w-3xl')) {
+                childElement.classList.remove('md:max-w-3xl')
+              }
+
+              if (
+                childElement.tagName === 'P' ||
+                childElement.tagName === 'PRE'
+              ) {
+                childElement.style.width = '100%' // 占满最大可用宽度
+                childElement.style.overflowWrap = 'break-word'
+              }
             }
           })
-          
+
         }
       })
     }
