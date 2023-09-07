@@ -54,7 +54,20 @@ export default defineManifest(async (env) => ({
       suggested_key: {
         default: 'Ctrl+Shift+F',
       },
-      description: 'Toggle Full Screen',
+      description: '切换全屏',
+    },
+    manualModification: {
+      suggested_key: {
+        default: 'Ctrl+Shift+X',
+      },
+      description: '手动触发修改',
+    },
+    undo_modification: {
+      suggested_key: {
+        default: 'Ctrl+Shift+Z',
+        mac: 'Command+Shift+Z',
+      },
+      description: '撤销修改',
     },
   },
 }))

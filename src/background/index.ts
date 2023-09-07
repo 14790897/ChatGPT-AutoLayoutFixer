@@ -42,3 +42,25 @@ chrome.runtime.onInstalled.addListener((details) => {
      })
 })
 
+chrome.commands.onCommand.addListener(function (command) {
+  if (command === 'manualModification') {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const activeTab = tabs[0]
+      if (activeTab.id && activeTab.url) {
+        chrome.tabs.sendMessage(activeTab.id, { action: 'manualModification' })
+      }
+    })
+  }
+})
+
+chrome.commands.onCommand.addListener(function (command) {
+  if (command === 'undo_modification') {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      const activeTab = tabs[0]
+      if (activeTab.id && activeTab.url) {
+        chrome.tabs.sendMessage(activeTab.id, { action: 'undoModification' })
+      }
+    })
+  }
+})
+
