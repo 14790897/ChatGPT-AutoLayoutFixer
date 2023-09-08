@@ -15,10 +15,7 @@
 
 ## 安装
 
-1. 克隆这个仓库到本地
-2. 打开Chrome浏览器，进入`chrome://extensions/`
-3. 开启"开发者模式"
-4. 点击"加载已解压的扩展程序"，选择这个项目的文件夹
+1. [chrome store](https://chrome.google.com/webstore/detail/chatgpt-web-modifier/cigmahfmggnpedigkgcadmniogngeamm/related?hl=zh-CN&authuser=0)
 
 ## 使用
 

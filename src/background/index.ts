@@ -16,13 +16,13 @@ chrome.commands.onCommand.addListener(async (command) => {
       }
     })
 
-    chrome.tabs.query({ url: '*://chat.openai.com/*' }, (tabs) => {
-      tabs.forEach((tab) => {
-        if (tab.id) {
-          chrome.tabs.reload(tab.id)
-        }
-      })
-    })
+    // chrome.tabs.query({ url: '*://chat.openai.com/*' }, (tabs) => {
+    //   tabs.forEach((tab) => {
+    //     if (tab.id) {
+    //       chrome.tabs.reload(tab.id)
+    //     }
+    //   })
+    // })
   }
 })
 
@@ -54,7 +54,7 @@ chrome.commands.onCommand.addListener(function (command) {
 })
 
 chrome.commands.onCommand.addListener(function (command) {
-  if (command === 'undo_modification') {
+  if (command === 'undoModification') {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       const activeTab = tabs[0]
       if (activeTab.id && activeTab.url) {
