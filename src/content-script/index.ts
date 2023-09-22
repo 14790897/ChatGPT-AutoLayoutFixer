@@ -1,12 +1,12 @@
 // 创建一个style元素并添加到<head>中
 const styleElement = document.createElement('style')
 styleElement.type = 'text/css'
-styleElement.innerHTML = `
-  * {
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-  }
-`
+// styleElement.innerHTML = `
+//   * {
+//     white-space: pre-wrap;
+//     overflow-wrap: break-word;
+//   }
+// `
 document.head.appendChild(styleElement)
 
 //用来保存未修改的元素的状态 9.7
