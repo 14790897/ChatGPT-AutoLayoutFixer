@@ -42,8 +42,11 @@ function removeSimilarClasses(element, pattern) {
 function sharedLogic(node) {
   if (node.nodeType === 1) {
     // 1 是 Element 类型
-    console.log('已添加node.tagName', node.tagName)
-
+    // console.log('已添加node.tagName', node.tagName)
+    if (attributeChange) {//这里出现的位置有问题 ,应该在下面 9.22
+      console.log('已触发attibutes的监视 in sharedLogic:', node.tagName)
+      attributeChange = false
+    }
     // 对所有子节点进行操作
     const childElements = node.querySelectorAll(
       '[class*="auto"], [class*="max"], p, pre'
@@ -83,6 +86,7 @@ function modifyClass(childElements: any) {
   })
 }
 
+let attributeChange = false
 // 创建一个Mutation Observer实例
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
@@ -93,7 +97,14 @@ const observer = new MutationObserver((mutations) => {
         sharedLogic(node)
       })
     } else if (mutation.type === 'attributes') {
+      attributeChange = true
+
+      // 断开观察??????
+      // observer.disconnect()
       sharedLogic(mutation.target)
+      // 重新开始观察
+      // observer.observe(document.body, config)
+      console.log('已触发attibutes的监视：', mutation.target)
     }
   })
 })
@@ -159,8 +170,6 @@ function undoModification() {
   originalStates = []
   console.log('undoModification')
 }
-
-
 
 function checkForImg(element, depth = 0) {
   if (depth >= 10) return false
