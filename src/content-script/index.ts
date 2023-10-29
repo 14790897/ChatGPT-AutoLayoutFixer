@@ -1,13 +1,13 @@
 // 创建一个style元素并添加到<head>中
-const styleElement = document.createElement('style')
-styleElement.type = 'text/css'
+// const styleElement = document.createElement('style')
+// styleElement.type = 'text/css'
 // styleElement.innerHTML = `
 //   * {
 //     white-space: pre-wrap;
 //     overflow-wrap: break-word;
 //   }
 // `
-document.head.appendChild(styleElement)
+// document.head.appendChild(styleElement)
 
 //用来保存未修改的元素的状态 9.7
 interface OriginalState {
@@ -43,10 +43,6 @@ function sharedLogic(node) {
   if (node.nodeType === 1) {
     // 1 是 Element 类型
     // console.log('已添加node.tagName', node.tagName)
-    if (attributeChange) {//这里出现的位置有问题 ,应该在下面 9.22
-      console.log('已触发attibutes的监视 in sharedLogic:', node.tagName)
-      attributeChange = false
-    }
     // 对所有子节点进行操作
     const childElements = node.querySelectorAll(
       '[class*="auto"], [class*="max"], p, pre'
