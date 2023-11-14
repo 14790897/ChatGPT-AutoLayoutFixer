@@ -20,7 +20,7 @@ let originalStates: OriginalState[] = []
 
 //Modify others
 const AUTO_CLASS = ['mx-auto', 'm-auto', 'my-auto', 'ml-auto', 'mr-auto']
-
+const MAX_CLASS = ['max-w-3xl', 'max-w-[40rem]', 'max-w-[48rem]']
 // 定义一个函数来移除特定类名
 const removeClasses = (element, classesToRemove) => {
   classesToRemove.forEach((cls) => {
@@ -66,6 +66,30 @@ function modifyClass(childElements: any) {
         removeClasses(childElement, AUTO_CLASS)
       }
 
+      if (childElement.className.includes('max')) {
+        removeClasses(childElement, MAX_CLASS)
+      }
+
+      childElement.forEach(function (element) {
+        // 获取元素的所有类名
+        const classList = element.classList
+
+        // 创建一个数组来存储需要移除的类名
+        const classesToRemove = []
+
+        // 检查每个类名，看它是否包含 'gizmo'
+        classList.forEach(function (className) {
+          if (className.includes('gizmo')) {
+            classesToRemove.push(className)
+          }
+        })
+
+        // 移除所有匹配的类名
+        classesToRemove.forEach(function (className) {
+          element.classList.remove(className)
+        })
+      })
+
       // if (childElement.className.includes('md:max-w-3xl')) {
       //   childElement.classList.remove('md:max-w-3xl')
       // }
@@ -100,7 +124,7 @@ const observer = new MutationObserver((mutations) => {
       sharedLogic(mutation.target)
       // 重新开始观察
       // observer.observe(document.body, config)
-      console.log('已触发attibutes的监视：', mutation.target)
+      // console.log('已触发attibutes的监视：', mutation.target)
     }
   })
 })
