@@ -55,7 +55,7 @@ function sharedLogic(node: any) {
     const childElements = node.querySelectorAll(
       '[class*="auto"], [class*="max"]' //, p, pre
     )
-    if (childElements) console.log('已找到childElements', childElements)
+    // if (childElements) console.log('已找到childElements', childElements)
     modifyClass(childElements)
   }
 }
@@ -79,9 +79,9 @@ function modifyClass(childElements: any) {
         removeClasses(childElement, MAX_CLASS)
       }
 
-      if (childElement.className.includes('break')) {
-        removeClasses(childElement, BREAK_CLASS)
-      }
+      // if (childElement.className.includes('break')) {
+      //   removeClasses(childElement, BREAK_CLASS)
+      // }
 
       removeSimilarClasses(
         childElement,
@@ -127,7 +127,7 @@ const observer = new MutationObserver((mutations) => {
         // 设置新的计时器
         attributeChangeTimeout = setTimeout(() => {
           manualModification()
-        }, 50) // 50 毫秒延迟
+        }, 200) // 200 毫秒延迟
         // console.log('已触发attibutes的监视,mutation.target为', mutation.target)
         attributeChange = true
         // 重新开始观察
