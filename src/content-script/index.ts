@@ -127,7 +127,7 @@ const observer = new MutationObserver((mutations) => {
         // 设置新的计时器
         attributeChangeTimeout = setTimeout(() => {
           manualModification()
-        }, 200) // 200 毫秒延迟
+        }, 100) // 100 毫秒延迟
         // console.log('已触发attibutes的监视,mutation.target为', mutation.target)
         attributeChange = true
         // 重新开始观察
