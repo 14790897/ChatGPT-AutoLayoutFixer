@@ -98,6 +98,8 @@ function modifyClass(childElements: any) {
 }
 
 let attributeChange = false
+let attributeChangeTimeout
+
 // 创建一个Mutation Observer实例
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
@@ -118,7 +120,14 @@ const observer = new MutationObserver((mutations) => {
         // 断开观察??????
         // observer.disconnect()
         //mutation.target只有一个
-        sharedLogic(mutation.target)
+        // sharedLogic(mutation.target)
+        // 清除之前的计时器
+        clearTimeout(attributeChangeTimeout)
+
+        // 设置新的计时器
+        attributeChangeTimeout = setTimeout(() => {
+          manualModification()
+        }, 50) // 50 毫秒延迟
         // console.log('已触发attibutes的监视,mutation.target为', mutation.target)
         attributeChange = true
         // 重新开始观察
