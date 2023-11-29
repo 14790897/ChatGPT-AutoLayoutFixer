@@ -20,7 +20,15 @@ let originalStates: OriginalState[] = []
 
 //Modify others
 const AUTO_CLASS = ['mx-auto', 'm-auto', 'my-auto', 'ml-auto', 'mr-auto']
-const MAX_CLASS = ['max-w-3xl', 'max-w-[40rem]', 'max-w-[48rem]']
+const MAX_CLASS = [
+  'max-w-3xl',
+  'max-w-[40rem]',
+  'max-w-[48rem]',
+  'lg:max-w-[40rem]',
+  'xl:max-w-[48rem]',
+  'lg:w-[calc(100%-115px)]',
+]
+const BREAK_CLASS = ['break-all', 'break-words']
 // 定义一个函数来移除特定类名
 const removeClasses = (element, classesToRemove) => {
   classesToRemove.forEach((cls) => {
@@ -39,14 +47,15 @@ function removeSimilarClasses(element, pattern) {
   })
 }
 
-function sharedLogic(node) {
+function sharedLogic(node: any) {
   if (node.nodeType === 1) {
     // 1 是 Element 类型
     // console.log('已添加node.tagName', node.tagName)
     // 对所有子节点进行操作
     const childElements = node.querySelectorAll(
-      '[class*="auto"], [class*="max"], p, pre'
+      '[class*="auto"], [class*="max"]' //, p, pre
     )
+    if (childElements) console.log('已找到childElements', childElements)
     modifyClass(childElements)
   }
 }
@@ -70,32 +79,14 @@ function modifyClass(childElements: any) {
         removeClasses(childElement, MAX_CLASS)
       }
 
-      childElement.forEach(function (element) {
-        // 获取元素的所有类名
-        const classList = element.classList
+      if (childElement.className.includes('break')) {
+        removeClasses(childElement, BREAK_CLASS)
+      }
 
-        // 创建一个数组来存储需要移除的类名
-        const classesToRemove = []
-
-        // 检查每个类名，看它是否包含 'gizmo'
-        classList.forEach(function (className) {
-          if (className.includes('gizmo')) {
-            classesToRemove.push(className)
-          }
-        })
-
-        // 移除所有匹配的类名
-        classesToRemove.forEach(function (className) {
-          element.classList.remove(className)
-        })
-      })
-
-      // if (childElement.className.includes('md:max-w-3xl')) {
-      //   childElement.classList.remove('md:max-w-3xl')
-      // }
       removeSimilarClasses(
         childElement,
-        /^(xs|sm|md|lg|xl):max-w-\[.*\]$|^(xs|sm|md|lg|xl):max-w-\w+/
+        // /^(xs|sm|md|lg|xl):max-w-\[.*\]$|^(xs|sm|md|lg|xl):max-w-\w+/
+        /max/i
       )
 
       if (childElement.tagName === 'P' || childElement.tagName === 'PRE') {
@@ -110,21 +101,30 @@ let attributeChange = false
 // 创建一个Mutation Observer实例
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
-    // console.log('已添加mutation.type', mutation.type)
-    if (mutation.type === 'childList') {
-      // console.log('已添加mutation.addedNodes', mutation.addedNodes)
-      mutation.addedNodes.forEach((node) => {
-        sharedLogic(node)
-      })
-    } else if (mutation.type === 'attributes') {
-      attributeChange = true
-
-      // 断开观察??????
-      // observer.disconnect()
-      sharedLogic(mutation.target)
-      // 重新开始观察
-      // observer.observe(document.body, config)
-      // console.log('已触发attibutes的监视：', mutation.target)
+    // 检查变更是否来自于 id 为 "prompt-textarea" 的元素
+    if (
+      mutation.target.id !== 'prompt-textarea' &&
+      !mutation.target.className.includes('bg-token-text-primary')
+    ) {
+      // console.log('已添加mutation.type', mutation.type)
+      if (mutation.type === 'childList') {
+        // console.log('已添加mutation.addedNodes', mutation.addedNodes)
+        //mutation.addedNodes有多个
+        mutation.addedNodes.forEach((node) => {
+          sharedLogic(node)
+        })
+      } else if (mutation.type === 'attributes') {
+        //&& !attributeChange
+        // 断开观察??????
+        // observer.disconnect()
+        //mutation.target只有一个
+        sharedLogic(mutation.target)
+        // console.log('已触发attibutes的监视,mutation.target为', mutation.target)
+        attributeChange = true
+        // 重新开始观察
+        // observer.observe(document.body, config)
+        // console.log('已触发attibutes的监视：', mutation.target)
+      }
     }
   })
 })
@@ -136,6 +136,7 @@ const config = { attributes: true, childList: true, subtree: true }
 chrome.storage.local.get(['isObserving'], (result) => {
   if (result.isObserving) {
     // 开始观察整个文档
+    console.log('开始观察整个文档，这是插件启动时应该触发的')
     observer.observe(document.body, config)
   }
 })
