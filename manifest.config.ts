@@ -29,12 +29,7 @@ export default defineManifest(async (env) => ({
     {
       all_frames: false,
       js: ['src/content-script/index.ts'],
-      matches: [
-        '*://chat.openai.com/*',
-        '*://*.chat.openai.com/*',
-        '*://chat.zhile.io/*',
-        '*://chat1.zhile.io/*',
-      ],
+      matches: ['<all_urls>'],
       run_at: 'document_end',
     },
   ],

@@ -106,6 +106,7 @@ const observer = new MutationObserver((mutations) => {
     // 检查变更是否来自于 id 为 "prompt-textarea" 的元素
     if (
       mutation.target.id !== 'prompt-textarea' &&
+      typeof mutation.target.className === 'string' &&
       !mutation.target.className.includes('bg-token-text-primary')
     ) {
       // console.log('已添加mutation.type', mutation.type)
