@@ -5,7 +5,7 @@ chrome.commands.onCommand.addListener(async (command) => {
       const activeTab = tabs[0]
       if (activeTab.id && activeTab.url) {
         // 使用正则表达式检查 URL 是否匹配
-        const regex = /^https?:\/\/chat\.openai\.com\/.*$/
+        const regex = /chat/i
         if (regex.test(activeTab.url)) {
           // 如果 URL 匹配，则执行相应的操作
           chrome.tabs.sendMessage(activeTab.id, { action: 'toggleFullScreen' })
