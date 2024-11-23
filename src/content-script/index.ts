@@ -182,17 +182,17 @@ setTimeout(() => {
       }
     })
 
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      if (message.action === 'manualModification') {
-        manualModification()
-      }
-    })
+    // chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    //   if (message.action === 'manualModification') {
+    //     manualModification()
+    //   }
+    // })
 
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      if (message.action === 'undoModification') {
-        undoModification()
-      }
-    })
+    // chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    //   if (message.action === 'undoModification') {
+    //     undoModification()
+    //   }
+    // })
 
     function manualModification() {
       const childElements = document.querySelectorAll(

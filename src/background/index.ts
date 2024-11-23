@@ -15,52 +15,43 @@ chrome.commands.onCommand.addListener(async (command) => {
         }
       }
     })
-
-    // chrome.tabs.query({ url: '*://chat.openai.com/*' }, (tabs) => {
-    //   tabs.forEach((tab) => {
-    //     if (tab.id) {
-    //       chrome.tabs.reload(tab.id)
-    //     }
-    //   })
-    // })
   }
 })
 
-chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === 'install') {
-    // 扩展被安装时，设置 isObserving 为 true
-    chrome.storage.local.set({ isObserving: true }, () => {
-      console.log('isObserving has been set to true')
-    })
-    }
-     chrome.tabs.query({ url: '*://chat.openai.com/*' }, (tabs) => {
-       tabs.forEach((tab) => {
-         if (tab.id) {
-           chrome.tabs.reload(tab.id)
-         }
-       })
-     })
-})
+// chrome.runtime.onInstalled.addListener((details) => {
+//   if (details.reason === 'install') {
+//     // 扩展被安装时，设置 isObserving 为 true
+//     chrome.storage.local.set({ isObserving: true }, () => {
+//       console.log('isObserving has been set to true')
+//     })
+//   }
+//   chrome.tabs.query({ url: '*://chat.openai.com/*' }, (tabs) => {
+//     tabs.forEach((tab) => {
+//       if (tab.id) {
+//         chrome.tabs.reload(tab.id)
+//       }
+//     })
+//   })
+// })
+// chrome.commands.onCommand.addListener(function (command) {
+//   if (command === 'manualModification') {
+//     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//       const activeTab = tabs[0]
+//       if (activeTab.id && activeTab.url) {
+//         chrome.tabs.sendMessage(activeTab.id, { action: 'manualModification' })
+//       }
+//     })
+//   }
+// })
 
-chrome.commands.onCommand.addListener(function (command) {
-  if (command === 'manualModification') {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const activeTab = tabs[0]
-      if (activeTab.id && activeTab.url) {
-        chrome.tabs.sendMessage(activeTab.id, { action: 'manualModification' })
-      }
-    })
-  }
-})
-
-chrome.commands.onCommand.addListener(function (command) {
-  if (command === 'undoModification') {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const activeTab = tabs[0]
-      if (activeTab.id && activeTab.url) {
-        chrome.tabs.sendMessage(activeTab.id, { action: 'undoModification' })
-      }
-    })
-  }
-})
+// chrome.commands.onCommand.addListener(function (command) {
+//   if (command === 'undoModification') {
+//     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//       const activeTab = tabs[0]
+//       if (activeTab.id && activeTab.url) {
+//         chrome.tabs.sendMessage(activeTab.id, { action: 'undoModification' })
+//       }
+//     })
+//   }
+// })
 
